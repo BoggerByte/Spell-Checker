@@ -2,6 +2,7 @@
     import type { HTMLButtonAttributes } from "svelte/elements";
     import { cva, type VariantProps } from "class-variance-authority";
 
+
     const button = cva([
         'border-[1px]',
         'transition-all ease-in-out duration-200'
@@ -58,7 +59,9 @@
             size: 'medium'
         }
     })
-    interface $$Props extends HTMLButtonAttributes, VariantProps<typeof button> {}
+
+    interface $$Props extends HTMLButtonAttributes, VariantProps<typeof button> {
+    }
 
     export let intent: $$Props['intent'] = 'primary'
     export let size: $$Props['size'] = 'medium'
@@ -67,16 +70,17 @@
     let ref: HTMLButtonElement
 
     export const focus = () => ref.focus()
+    export const blur = () => ref.blur()
 
     $: buttonClass = button({ intent, size, disabled, class: $$props.class })
 </script>
 
 <button
-    {...$$props}
-    class={buttonClass}
-    bind:this={ref}
-    on:click
-    on:focus
+        {...$$props}
+        class={buttonClass}
+        bind:this={ref}
+        on:click
+        on:focus
 >
-    <slot />
+    <slot/>
 </button>

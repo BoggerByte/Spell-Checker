@@ -1,11 +1,10 @@
 <script lang="ts">
     import { createEventDispatcher, onMount } from "svelte";
-    import WordWithBlanks from './word-with-blanks.svelte'
-    import WordWithFilledBlanks from './word-with-filled-blanks.svelte'
-    import Icon from '../icon/icon.svelte'
+    import WordWithBlanks from './WordWithBlanks.svelte'
+    import WordWithFilledBlanks from './WordWithFilledBlanks.svelte'
+    import Icon from '$lib/components/icon'
+    import wait from "$lib/utils/wait";
 
-
-    type CardState = undefined | 'CORRECT' | 'INCORRECT'
     type WordWithBlanksRef = HTMLElement & { focus(): void, highlight(): void }
 
     const dispatch = createEventDispatcher()
@@ -13,7 +12,7 @@
     export let word: string
     export let blanked: string
     export let idx: number
-    export const check = () => {
+    export const check = async () => {
         const answer = {
             word, blanked, value,
             isCorrect: word.toLowerCase() === value.toLowerCase()
@@ -22,43 +21,31 @@
         wordWithBlanksRef.highlight()
 
         if (answer.isCorrect) {
-            state = 'CORRECT'
-            setTimeout(() => dispatch('answer', answer), 300)
+            await wait(300)
+            dispatch('answer', answer)
         } else {
-            state = 'INCORRECT'
-            setTimeout(() => flipped = true, 300)
-            setTimeout(() => flipped = false, 1500)
-            setTimeout(() => dispatch('answer', answer), 2000)
+            await wait(300, flip)
+            await wait(1000)
+            await wait(300, flip)
+            dispatch('answer', answer)
         }
     }
 
-    let state: CardState = undefined
-    let value: string = ""
-    let flipped: boolean = false
-    let saved: boolean = false
+    let value = ""
+    let flipped = false
+    let saved = false
 
     let wordWithBlanksRef: WordWithBlanksRef
 
-    function toggleSaved() {
+    function save() {
         saved = !saved
     }
 
-    onMount(() => wordWithBlanksRef.focus())
+    function flip() {
+        flipped = !flipped
+    }
 
-    //animation: flip 750ms ease-in-out;
-    //animation-fill-mode: forwards;
-    //
-    //@keyframes flip {
-    //    0% {
-    //        transform: scale(1);
-    //    }
-    //    50% {
-    //        transform: scale(1.05) rotateY(180deg);
-    //    }
-    //    100% {
-    //        transform: scale(1) rotateY(180deg);
-    //    }
-    //}
+    onMount(() => wordWithBlanksRef.focus())
 </script>
 
 <style lang="postcss">
@@ -120,6 +107,8 @@
             }
 
             .description {
+                @apply text-gray-700;
+
                 grid-area: d;
             }
         }
@@ -132,42 +121,15 @@
             transform: rotateY(180deg);
         }
     }
-
-    .pulse-correct {
-        animation: pulse-green 250ms ease-out;
-
-        @keyframes pulse-green {
-            0%, 100% {
-                @apply bg-slate-100;
-            }
-            50% {
-                @apply bg-green-200
-            }
-        }
-    }
-
-    .pulse-incorrect {
-        animation: pulse-red 250ms ease-out;
-
-        @keyframes pulse-red {
-            0%, 100% {
-                @apply bg-slate-100;
-            }
-            50% {
-                @apply bg-red-200
-            }
-        }
-    }
 </style>
 
 
 <div class="scene">
-    <div class="card" class:flipped={flipped}>
-        <div class="card__face card__face--front
-                    {{'CORRECT': 'pulse-correct', 'INCORRECT': 'pulse-incorrect'}[state]}">
+    <div class="card" class:flipped>
+        <div class="card__face card__face--front">
             <div class="index">{idx + 1}</div>
             <div class="star">
-                <button on:click={toggleSaved}>
+                <button on:click={save}>
                     <Icon name={saved ? 'star-filled' : 'star'} />
                 </button>
             </div>
@@ -182,15 +144,14 @@
                 />
             </div>
             <div class="description">
-
+                Описание карточки в разработке...
             </div>
         </div>
 
-        <div class="card__face card__face--back
-                    {{'CORRECT': 'pulse-correct', 'INCORRECT': 'pulse-incorrect'}[state]}">
+        <div class="card__face card__face--back">
             <div class="index">{idx + 1}</div>
             <div class="star">
-                <button on:click={toggleSaved}>
+                <button on:click={save}>
                     <Icon name={saved ? 'star-filled' : 'star'} />
                 </button>
             </div>

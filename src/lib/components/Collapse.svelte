@@ -1,6 +1,6 @@
 <script lang="ts">
     import { slide } from "svelte/transition";
-    import Icon from '../components/icon/icon.svelte'
+    import Icon from './icon/Icon.svelte'
 
     export let isOpen: boolean = false
 

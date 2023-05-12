@@ -1,7 +1,8 @@
-import type { Dictionary } from "../types/dictionary";
+import type { StorableDictionary, DictionaryEntry } from "$lib/game/types/Dictionary";
+import { Dictionary } from "$lib/game/dictionary";
 
 
-const ege2023: Dictionary = [
+const entries: DictionaryEntry[] = [
     {
         "word": "абажур",
         "blanked": "_б_жур"
@@ -1555,5 +1556,7 @@ const ege2023: Dictionary = [
         "blanked": "_нтарь"
     }
 ]
+
+const ege2023 = new Dictionary('ЕГЭ 2023', entries)
 
 export default ege2023

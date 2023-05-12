@@ -3,14 +3,14 @@
     import { flip } from "svelte/animate";
     import { crossfade } from "svelte/transition";
     import { slide, fade } from "svelte/transition";
-    import type { GameStore } from "./game";
-    import type { Answer } from "../types/answer";
-    import ResultCard from '../components/card/result-card.svelte'
-    import ResultRow from '../components/card/result-row.svelte'
-    import Collapse from '../components/collapse.svelte'
-    import Button from '../components/button.svelte'
-    import type { DictionaryEntry } from "../types/dictionary";
-    import { pushMistakesDictionary } from "./dictionaries";
+    import type { Answer } from "$lib/game/types/Answer";
+    import type { DictionaryEntry } from "$lib/game/types/Dictionary";
+    import ResultCard from '$lib/game/card/ResultCard.svelte'
+    import ResultRow from '$lib/game/card/ResultRow.svelte'
+    import Collapse from '$lib/components/Collapse.svelte'
+    import Button from '$lib/components/Button.svelte'
+    import type { GameStore } from "../store";
+    import { Dictionary } from "../dictionary";
 
     const game = getContext<GameStore>('game')
 
@@ -25,15 +25,28 @@
     let showSaveMistakesButton: boolean = true
 
     function saveMistakes() {
-        const mistakes = answers
+        const MISTAKES_DICTIONARY_NAME = 'mistakes'
+        const mistakesDictionaryKey = Dictionary.getStorageKey(MISTAKES_DICTIONARY_NAME)
+
+        const mistakes: DictionaryEntry[] = answers
             .filter(ans => !ans.isCorrect)
-            .map<DictionaryEntry>(ans => ({ word: ans.word, blanked: ans.blanked }))
-        pushMistakesDictionary(mistakes)
+            .map(ans => ({ word: ans.word, blanked: ans.blanked }))
+        const newMistakes = mistakes.filter(newEntry => !(newEntry in mistakes))
+
+        let mistakesDictionary: Dictionary
+        try {
+            mistakesDictionary = Dictionary.loadFromStorage(mistakesDictionaryKey)
+            mistakesDictionary.entries.push(...newMistakes)
+        } catch (ignored) {
+            mistakesDictionary = new Dictionary(MISTAKES_DICTIONARY_NAME, newMistakes)
+        }
+
+        mistakesDictionary.saveToStorage()
     }
 
     function restart() {
         game.reset()
-        game.next('settings')
+        game.nextState('main-menu')
     }
 
     function sortCardsStack() {

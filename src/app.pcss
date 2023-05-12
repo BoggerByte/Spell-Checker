@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+.form-group {
+    @apply mb-5 flex flex-col;
+
+    &:has(input[type='checkbox']) {
+        @apply inline-flex flex-row;
+    }
+
+    .label {
+        @apply flex gap-1 mb-[3px] ml-[2px]
+        font-medium text-xs text-gray-400 uppercase;
+    }
+
+    textarea,
+    select,
+    input {
+        @apply p-[10px] w-full h-[40px]
+        rounded border-none outline-none;
+
+        &:focus, &:active {
+            box-shadow: none;
+            outline: none;
+        }
+    }
+    input[type='color'] {
+        @apply py-[2px] px-[3px];
+    }
+    input[type='checkbox'] {
+        @apply order-first h-auto w-auto mr-1;
+    }
+    textarea {
+        height: 200px;
+    }
+
+    &.required {
+        .label {
+            @apply before:content-['*'] before:pl-1 before:pr-0.5 before:text-red-500;
+        }
+    }
+    &.disabled {
+        textarea, select, input {
+            pointer-events: none;
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+    }
+}

@@ -1,63 +1,56 @@
 <script lang="ts">
-    import GameCard from '../components/card/game-card.svelte'
-    import Button from '../components/button.svelte'
-    import type { Answer } from "../types/answer";
+    import GameCard from '$lib/game/card/GameCard.svelte'
+    import Button from '$lib/components/Button.svelte'
+    import type { Answer } from "$lib/game/types/Answer";
+    import { swipe } from "../transitions";
+    import type { GameStore } from "../store";
     import { getContext } from "svelte";
-    import { swipe } from "./transitions";
     import { fade } from "svelte/transition";
-    import type { GameStore } from "./game";
+    import wait from "$lib/utils/wait";
 
 
-    type WordCardRef = HTMLElement & { check(): void }
+    type WordCardRef = HTMLElement & { check(): Promise<unknown> }
 
     const game = getContext<GameStore>('game')
 
     let wordCardRefs = new Array<WordCardRef>($game.maxRounds)
     let answerButtonRef: HTMLButtonElement
 
-    let hideLayout: boolean = false
+    let overlayHidden = false
 
-    function handleAnswer(event) {
-        const answer = event.detail satisfies Answer
-
-        if (answer.isCorrect) {
-            console.debug('Correct!')
-        } else {
-            console.debug('Incorrect!')
-        }
+    async function handleAnswer(event) {
+        const answer = event.detail as Answer
 
         $game.answers.push(answer)
 
         if ($game.round >= $game.maxRounds) {
-            goToResults()
-            return
+            await goToResults()
+        } else {
+            $game.round++
         }
-
-        $game.round++
     }
 
-    function focusOnAnswerButton() {
-        answerButtonRef.focus()
-    }
-
-    function checkCurrentCard() {
+    async function checkCurrentCard(e) {
         const currentCard = wordCardRefs[$game.round - 1]
-        currentCard.check()
+        answerButtonRef.blur()
+
+        await wait(600, () => overlayHidden = true)
+        await currentCard.check()
+        await wait(600, () => overlayHidden = false)
     }
 
-    function goToSettings() {
-        game.reset()
-        game.next('settings')
+    async function goToMainMenu() {
+        await wait(600, () => overlayHidden = true).then(() => game.reset())
     }
 
-    function goToResults() {
-        hideLayout = true
-        setTimeout(() => game.next('results'), 600)
+    async function goToResults() {
+        await wait(600, () => overlayHidden = true).then(() => game.nextState('results'))
     }
 
     $: correctAnswersAmount = $game.answers.filter(ans => ans.isCorrect).length
     $: incorrectAnswersAmount = $game.answers.filter(ans => !ans.isCorrect).length
 
+    // deallocate used cards
     $: wordCardRefs, wordCardRefs.forEach((_, idx) => {
         if (idx === $game.round - 1) return
         wordCardRefs[idx] = null
@@ -107,7 +100,7 @@
     </div>
 
     <div class="relative aspect-[5/7] min-w-[300px] w-[75vw] sm:w-[400px] md:w-[450px] lg:w-[500px] z-0">
-        {#each $game.dictionary as entry, idx (entry)}
+        {#each $game.dictionary.entries as entry, idx (entry)}
             {#if idx + 1 === $game.round}
                 <div class="absolute" out:swipe|local>
                     <GameCard
@@ -115,14 +108,14 @@
                         blanked={entry.blanked}
                         idx={idx}
                         bind:this={wordCardRefs[idx]}
-                        on:filled={focusOnAnswerButton}
+                        on:filled={() => answerButtonRef.focus()}
                         on:answer={handleAnswer}
                     />
                 </div>
             {/if}
         {/each}
 
-        {#if !hideLayout}
+        {#if !overlayHidden}
             <div class="overlay absolute bottom-[20px] z-20" out:fade|local={{ duration: 400 }}>
                 <div class="counter">
                     <span class="text-green-600">{correctAnswersAmount}</span>
@@ -150,10 +143,10 @@
         {/if}
     </div>
 
-    {#if !hideLayout}
+    {#if !overlayHidden}
         <div class="options mt-4" out:fade={{ duration: 600 }}>
-            <Button class="w-full" intent="link" on:click={goToSettings}>
-                Назад
+            <Button class="w-full" intent="link" on:click={goToMainMenu}>
+                В Главное Меню
             </Button>
             <Button class="w-full" intent="link" on:click={goToResults}>
                 Закончить

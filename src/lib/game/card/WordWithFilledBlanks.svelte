@@ -1,5 +1,5 @@
 <script lang="ts">
-    import zip from "../../utils/zip";
+    const BLANK_LETTER = '_'
 
 
     export let word: string
@@ -12,25 +12,17 @@
     .word {
         @apply inline-flex flex-wrap items-baseline justify-center;
 
-        .letter {
-
-        }
-
         .blank-letter {
             @apply relative
             w-[1.4ch] h-[2ex]
             mx-[2px];
 
-            &.correct {
-                div {
-                    @apply text-green-600;
-                }
+            &.correct div {
+                @apply text-green-600;
             }
 
-            &.incorrect {
-                div {
-                    @apply text-red-600;
-                }
+            &.incorrect div {
+                @apply text-red-600;
             }
 
             div {
@@ -44,18 +36,18 @@
 </style>
 
 <div class="word">
-    {#each zip(word, blanked) as [correctLetter, letter], idx}
-        {#if letter !== correctLetter}
+    {#each blanked as letter, idx}
+        {#if letter === BLANK_LETTER}
             <div
                 class="blank-letter"
-                class:correct={highlighted && value[idx] === correctLetter}
-                class:incorrect={highlighted && value[idx] !== correctLetter}
+                class:correct={highlighted && value[idx] === word[idx]}
+                class:incorrect={highlighted && value[idx] !== word[idx]}
             >
                 <div>{value[idx]}</div>
             </div>
         {:else}
             <div class="letter">
-                {correctLetter}
+                {word[idx]}
             </div>
         {/if}
     {/each}

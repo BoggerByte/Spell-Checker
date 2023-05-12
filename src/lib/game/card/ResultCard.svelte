@@ -1,7 +1,7 @@
 <script lang="ts">
-    import WordWithFilledBlanks from './word-with-filled-blanks.svelte'
-    import Icon from '../icon/icon.svelte'
-    import type { Answer } from "../../types/answer";
+    import WordWithFilledBlanks from './WordWithFilledBlanks.svelte'
+    import Icon from '../../components/icon/Icon.svelte'
+    import type { Answer } from "$lib/game/types/Answer";
 
 
     export let answer: Answer
@@ -9,7 +9,7 @@
     export let highlighted: boolean = false
     export let saved: boolean = false
 
-    function toggleSaved() {
+    function save() {
         saved = !saved
     }
 </script>
@@ -65,7 +65,7 @@
 <div class="card">
     <div class="index">{idx + 1}</div>
     <div class="star">
-        <button on:click={toggleSaved}>
+        <button on:click={save}>
             <Icon name={saved ? 'star-filled' : 'star'} />
         </button>
     </div>
@@ -79,6 +79,6 @@
         />
     </div>
     <div class="description">
-
+        Description (WIP)
     </div>
 </div>

@@ -20,7 +20,7 @@ Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also pow
 
 This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regards to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
 
-Should you later need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
+Should you wait need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
 
 **Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
 
@@ -41,7 +41,7 @@ HMR state preservation comes with a number of gotchas! It has been disabled by d
 If you have state that's important to retain within a component, consider creating an external game which would not be replaced by HMR.
 
 ```ts
-// game.ts
+// store.ts
 // An extremely simple external game
 import { writable } from 'svelte/game'
 export default writable(0)

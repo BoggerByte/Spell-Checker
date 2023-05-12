@@ -7,7 +7,8 @@ export default defineConfig({
   plugins: [svelte()],
   resolve: {
     alias: {
-      $lib: path.resolve('./src/lib')
+      $lib: path.resolve('./src/lib'),
+      $types: path.resolve('./src/lib/types')
     }
   },
   base: '/Spell-Checker/'

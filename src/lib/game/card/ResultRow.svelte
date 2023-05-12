@@ -1,7 +1,7 @@
 <script lang="ts">
-    import WordWithFilledBlanks from './word-with-filled-blanks.svelte'
-    import Icon from '../icon/icon.svelte'
-    import { type Answer } from "../../types/answer";
+    import WordWithFilledBlanks from './WordWithFilledBlanks.svelte'
+    import Icon from '../../components/icon/Icon.svelte'
+    import { type Answer } from "$lib/game/types/Answer";
 
 
     export let answer: Answer
