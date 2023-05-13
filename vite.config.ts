@@ -11,5 +11,5 @@ export default defineConfig({
 			$types: path.resolve('./src/lib/types')
 		}
 	},
-	base: '/Spell-Checker/'
+	base: '/Guess-The-Letter/'
 })
