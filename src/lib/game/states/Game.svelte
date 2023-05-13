@@ -96,7 +96,7 @@
 	}
 </style>
 
-<div class="flex flex-col items-center" in:fade={{ duration: 600, delay: 600 }}>
+<div class="flex flex-col items-center" transition:fade={{ duration: 600, delay: 600 }}>
 	<div class="round mb-2 sm:mb-4">
 		{$game.round} из {$game.maxRounds}
 	</div>
