@@ -4,4 +4,6 @@
 <style lang="postcss">
 </style>
 
-<section />
+<section class="text-center">
+	Здесь пока ничего нет :(
+</section>
