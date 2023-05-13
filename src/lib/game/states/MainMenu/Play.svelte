@@ -95,24 +95,10 @@
 	.header {
 		@apply text-center text-3xl mb-3;
 	}
-
-	.form {
-		@apply flex flex-col mb-3;
-
-		label {
-			@apply ml-3 text-lg;
-		}
-
-		select {
-			@apply h-[50px]
-            px-4 py-2
-            rounded-lg border-[1px] border-gray-300
-            bg-gray-100;
-		}
-	}
 </style>
 
 <section>
+	<h1 class="header">Играть</h1>
 	<form on:submit|preventDefault={start}>
 		<FormField
 			required
