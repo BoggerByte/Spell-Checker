@@ -2,22 +2,44 @@
 	import Button from '$lib/components/Button.svelte'
 	import Collapse from '$lib/components/Collapse.svelte'
 	import handleFileUpload from '$lib/utils/handleFileUpload'
-	import { Dictionaries } from '$lib/game/dictionary'
+	import { Dictionaries, Dictionary } from '$lib/game/dictionary'
 	import type { StorableDictionary } from '$lib/game/types/Dictionary'
 	import { onMount } from 'svelte'
+	import { array, object, string, is } from 'superstruct'
+
+	const StorableDictionaryObject = object({
+		name: string(),
+		entries: array(object({
+			word: string(),
+			blanked: string()
+		}))
+	})
+
+	function isStorableDictionary(obj: unknown): obj is StorableDictionary {
+		return is(obj, StorableDictionaryObject)
+	}
 
 	const handleDictionaryUpload = () =>
 		handleFileUpload((file) => {
-			if (file.type != 'application/json') return
-
 			const reader = new FileReader()
 			reader.addEventListener('load', () => {
 				const result = String(reader.result)
-				const dictionary = JSON.parse(result)
 
-				if (dictionary == undefined) return
+				let storableDictionary: unknown
+				try {
+					storableDictionary = JSON.parse(result)
+				} catch (ignored) {
+					alert('Допущена ошибка в JSON')
+					return
+				}
 
-				// TODO: save dict
+				if (!isStorableDictionary(storableDictionary)) {
+					alert('Неверная конфигурация словаря')
+					return
+				}
+
+				const dictionary = new Dictionary(storableDictionary.name, storableDictionary.entries)
+				dictionary.saveToStorage()
 
 				alert(`Словарь ${file.name} был успешно добавлен`)
 			})
@@ -39,6 +61,8 @@
 
 <style lang="postcss">
 	.dictionaries-list {
+		@apply flex flex-col gap-2;
+
 		.dictionary-item {
 			@apply w-full h-full
             grid items-center
@@ -76,6 +100,12 @@
 </style>
 
 <section>
+	<div class="mb-4 flex flex-col items-center">
+		<Button class="w-full lg:w-[500px]" intent="primary" on:click={handleDictionaryUpload}>
+			Загрузить свой словарь
+		</Button>
+	</div>
+
 	<Collapse isOpen={true}>
 		<h2 slot="header">Стандартные словари</h2>
 
@@ -98,7 +128,7 @@
 	</Collapse>
 
 	<Collapse isOpen={true}>
-		<h2 slot="header">Другие словари</h2>
+		<h2 slot="header">Сохранённые словари</h2>
 
 		<div class="dictionaries-list">
 			{#each localDictionaries as dict, idx}
@@ -117,10 +147,4 @@
 			{/each}
 		</div>
 	</Collapse>
-
-	<div class="flex flex-col items-center">
-		<Button class="w-full lg:w-[500px]" intent="primary" on:click={handleDictionaryUpload}>
-			Загрузить свой словарь
-		</Button>
-	</div>
 </section>
