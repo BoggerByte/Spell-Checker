@@ -1,39 +1,25 @@
 <script lang="ts">
-	import { getContext } from 'svelte'
+	import { getContext, onMount } from 'svelte'
 	import Button from '$lib/components/Button.svelte'
 	import shuffleArray from '$lib/utils/shuffleArray'
 	import type { DictionaryEntry, StorableDictionary } from '$lib/game/types/Dictionary'
 	import type { GameStore } from '$lib/game/store'
 	import FormField from '$lib/components/form/FormField.svelte'
-	import ege2023 from '$lib/game/contents/ege2023'
-	import mistakes from '$lib/game/contents/mistakes'
 	import { field } from 'svelte-forms'
 	import { max, min, required } from 'svelte-forms/validators'
+	import { Dictionaries, Dictionary } from '$lib/game/dictionary'
 
 	const game = getContext<GameStore>('game')
 
-	const dictionaryName = field<string>('dictionary_name', 'ege2023', [required()])
+	const dictionaryName = field<string>('dictionary_name', 'ЕГЭ 2023', [required()])
 	const dictionaryLength = field<number>('dictionary_length', 25, [required(), min(1), max(1000)])
 	const dictionaryRandomness = field<boolean>('dictionary_randomness', true, [required()])
 
 	// const preferencesForm = form(dictionaryName, dictionaryLength, dictionaryRandomness)
 
-	const dictionaries: Record<string, StorableDictionary> = {
-		ege2023: ege2023,
-		mistakes: mistakes
-	}
+	let dictionaries: Record<string, StorableDictionary> = {}
 
-	let dictionaryOptions: { name: string; value: string }[] = [
-		{
-			name: ege2023.name,
-			value: 'ege2023'
-		},
-		{
-			name: 'Ошибки',
-			value: 'mistakes'
-		}
-	]
-
+	let dictionaryOptions: { name: string; value: string }[] = []
 	let lengthOptions: { name: string; value: number }[] = [
 		{
 			name: '5',
@@ -56,6 +42,26 @@
 			value: 100
 		}
 	]
+
+	async function loadDictionaries(): Promise<void> {
+		const loadedDictionaries: Dictionary[] = []
+
+		const standardDictionaries = await Dictionaries.loadStandardDictionaries()
+		loadedDictionaries.push(...standardDictionaries)
+		const localDictionaries = Dictionaries.loadLocalDictionaries()
+		loadedDictionaries.push(...localDictionaries)
+
+		loadedDictionaries.forEach(dictionary => {
+			dictionaries[dictionary.name] = dictionary
+			dictionaryOptions.push({
+				name: dictionary.name,
+				value: dictionary.name
+			})
+		})
+
+		dictionaries = dictionaries
+		dictionaryOptions = dictionaryOptions
+	}
 
 	function prepareDictionary(
 		origin: StorableDictionary,
@@ -89,16 +95,11 @@
 
 		game.nextState('game')
 	}
+
+	onMount(() => loadDictionaries())
 </script>
 
-<style lang="postcss">
-	.header {
-		@apply text-center text-3xl mb-3;
-	}
-</style>
-
 <section>
-	<h1 class="header">Играть</h1>
 	<form on:submit|preventDefault={start}>
 		<FormField
 			required
