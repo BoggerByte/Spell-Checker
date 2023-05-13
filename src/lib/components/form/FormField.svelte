@@ -17,8 +17,6 @@
 	export let required = false
 	export let label = ''
 	export let options: { name: string; value: unknown }[] = []
-
-	$: value = $field.value
 </script>
 
 <div
@@ -33,7 +31,7 @@
 		</slot>
 	</div>
 
-	<slot name="input" {value}>
+	<slot name="input" field={$field}>
 		{#if type === 'textarea'}
 			<textarea bind:value={$field.value} />
 		{/if}
