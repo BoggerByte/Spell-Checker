@@ -8,7 +8,7 @@
 	import { fade } from 'svelte/transition'
 	import wait from '$lib/utils/wait'
 
-	type WordCardRef = HTMLElement & { check(): Promise<unknown> }
+	type WordCardRef = HTMLElement & { check(): Promise<unknown>, focus(): void }
 
 	const game = getContext<GameStore>('game')
 
@@ -16,6 +16,10 @@
 	let answerButtonRef: HTMLButtonElement
 
 	let overlayHidden = false
+
+	function getCurrentCard(): WordCardRef {
+		return wordCardRefs[$game.round - 1]
+	}
 
 	async function handleAnswer(event) {
 		const answer = event.detail as Answer
@@ -30,10 +34,10 @@
 	}
 
 	async function checkCurrentCard() {
-		const currentCard = wordCardRefs[$game.round - 1]
+		const currentCard = getCurrentCard()
 		answerButtonRef.blur()
 
-		await wait(600, () => (overlayHidden = true))
+		await wait(100, () => (overlayHidden = true))
 		await currentCard.check()
 		await wait(600, () => (overlayHidden = false))
 	}
@@ -92,7 +96,7 @@
 	}
 </style>
 
-<div class="flex flex-col items-center">
+<div class="flex flex-col items-center" in:fade={{ duration: 600, delay: 600 }}>
 	<div class="round mb-2 sm:mb-4">
 		{$game.round} из {$game.maxRounds}
 	</div>
@@ -102,7 +106,7 @@
 	>
 		{#each $game.dictionary.entries as entry, idx (entry)}
 			{#if idx + 1 === $game.round}
-				<div class="absolute" out:swipe|local>
+				<div class="absolute" out:swipe|local={{ duration: 600 }}>
 					<GameCard
 						word={entry.word}
 						blanked={entry.blanked}
@@ -116,7 +120,7 @@
 		{/each}
 
 		{#if !overlayHidden}
-			<div class="overlay absolute bottom-[20px] z-20" out:fade|local={{ duration: 400 }}>
+			<div class="overlay absolute bottom-[20px] z-20" transition:fade={{ duration: 300 }}>
 				<div class="counter">
 					<span class="text-green-600">{correctAnswersAmount}</span>
 					<span>:</span>
@@ -139,10 +143,8 @@
 		{/if}
 	</div>
 
-	{#if !overlayHidden}
-		<div class="options mt-4" out:fade={{ duration: 600 }}>
-			<Button class="w-full" intent="link" on:click={goToMainMenu}>В Главное Меню</Button>
-			<Button class="w-full" intent="link" on:click={goToResults}>Закончить</Button>
-		</div>
-	{/if}
+	<div class="options mt-4">
+		<Button class="w-full" intent="link" on:click={goToMainMenu}>В Главное Меню</Button>
+		<Button class="w-full" intent="link" on:click={goToResults}>Закончить</Button>
+	</div>
 </div>
