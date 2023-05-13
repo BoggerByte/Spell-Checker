@@ -12,7 +12,8 @@
 
 			const reader = new FileReader()
 			reader.addEventListener('load', () => {
-				const dictionary = JSON.parse(reader.result)
+				const result = String(reader.result)
+				const dictionary = JSON.parse(result)
 
 				if (dictionary == undefined) return
 
@@ -82,8 +83,10 @@
 			{#each standardDictionaries as dict, idx}
 				<div class="dictionary-item">
 					<div class="index">{idx + 1}</div>
-					<div class="name" on:click={() => viewDictionary(dict.name)}>
-						{dict.name} ({dict.entries.length})
+					<div class="name">
+						<button on:click={() => viewDictionary(dict.name)}>
+							{dict.name} ({dict.entries.length})
+						</button>
 					</div>
 					<div class="buttons">
 						<button> Редактировать </button>
@@ -101,8 +104,10 @@
 			{#each localDictionaries as dict, idx}
 				<div class="dictionary-item">
 					<div class="index">{idx + 1}</div>
-					<div class="name" on:click={() => viewDictionary(dict.name)}>
-						{dict.name} ({dict.entries.length})
+					<div class="name">
+						<button on:click={() => viewDictionary(dict.name)}>
+							{dict.name} ({dict.entries.length})
+						</button>
 					</div>
 					<div class="buttons">
 						<button> Редактировать </button>
