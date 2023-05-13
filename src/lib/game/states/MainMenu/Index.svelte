@@ -9,17 +9,19 @@
 <div transition:fade={{ duration: 600 }}>
 	<Tabs class="flex flex-col items-center">
 		<nav slot="headers" class="py-6 mx-auto w-full sm:w-[400px] flex gap-2">
+			<TabLink class="w-full" tabId="dictionaries" header="Словари" />
 			<TabLink class="w-full" tabId="play" header="Играть" active />
-			<TabLink class="w-full" tabId="dictionaryOptions" header="Словари" />
 			<TabLink class="w-full" tabId="settings" header="Настройки" />
 		</nav>
+
+		<Tab class="w-full" tabId="dictionaries">
+			<Dictionaries />
+		</Tab>
 
 		<Tab class="w-full sm:w-[400px]" tabId="play">
 			<Play />
 		</Tab>
-		<Tab class="w-full" tabId="dictionaryOptions">
-			<Dictionaries />
-		</Tab>
+
 		<Tab class="w-full sm:w-[400px]" tabId="settings">
 			<Settings />
 		</Tab>
