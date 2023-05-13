@@ -1,11 +1,11 @@
-<h1 style="text-align: center">
+<h1 align="center">
     Guess The Letter
 </h1>
-<p style="text-align: center">
+<p align="center">
     <img alt="Website" src="https://img.shields.io/website?logo=github&up_message=github.io&url=https%3A%2F%2Fboggerbyte.github.io%2FGuess-The-Letter%2F">
     <img alt="GitHub" src="https://img.shields.io/github/license/BoggerByte/Guess-The-Letter">
 </p>
-<p style="text-align: center">
+<p align="center">
     <em>Simple game that will quickly teach you how to write words correctly</em><br>
     <em>(Currently supports only russian language)</em>
 </p>
@@ -22,10 +22,7 @@
 ## Other screenshots
 
 ![Screenshot Main Menu](docs/screenshot_main_menu.jpg)
-*Main Menu*
-
 ![Screenshot Results](docs/screenshot_results.jpg)
-*Results*
 
 ---
 
