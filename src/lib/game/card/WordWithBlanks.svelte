@@ -11,7 +11,7 @@
 	export let blanked: string
 	export let value: string
 	export const highlight = async () => {
-		await wait(600, () => highlighted = true)
+		await wait(600, () => (highlighted = true))
 	}
 	export const focus = () => {
 		if (inputRefs.length > 0) {
@@ -50,7 +50,7 @@
 
 		if (input.value) return
 
-		event.preventDefault();
+		event.preventDefault()
 		if (idx - 1 >= 0) {
 			inputRefs[idx - 1].focus()
 		}
