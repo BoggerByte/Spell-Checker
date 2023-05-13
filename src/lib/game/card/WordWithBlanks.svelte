@@ -1,85 +1,84 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from "svelte";
-    import replaceAt from "$lib/utils/replaceAt";
+	import { createEventDispatcher, onMount } from 'svelte'
+	import replaceAt from '$lib/utils/replaceAt'
 
+	const dispatch = createEventDispatcher()
 
-    const dispatch = createEventDispatcher()
+	const BLANK_LETTER = '_'
 
-    const BLANK_LETTER = '_'
+	export let word: string
+	export let blanked: string
+	export let value: string
+	export const highlight = () => {
+		highlighted = true
+	}
+	export const focus = () => {
+		if (inputRefs.length > 0) {
+			inputRefs[0].focus()
+		}
+	}
 
-    export let word: string
-    export let blanked: string
-    export let value: string
-    export const highlight = () => {
-        highlighted = true
-    }
-    export const focus = () => {
-        if (inputRefs.length > 0) {
-            inputRefs[0].focus()
-        }
-    }
+	let highlighted = false
 
-    let highlighted = false
+	let wordRef: HTMLElement
+	let inputRefs: HTMLInputElement[]
 
-    let wordRef: HTMLElement
-    let inputRefs: HTMLInputElement[]
+	function handleLetter(event, idx: number) {
+		const letter = event.target.value || BLANK_LETTER
+		value = replaceAt(value, idx, letter)
+	}
 
-    function handleLetter(event, idx: number) {
-        const letter = event.target.value || BLANK_LETTER
-        value = replaceAt(value, idx, letter)
-    }
+	function handleInput(event) {
+		const input: HTMLInputElement = event.target
+		const idx = inputRefs.indexOf(input)
 
-    function handleInput(event) {
-        const input: HTMLInputElement = event.target
-        const idx = inputRefs.indexOf(input)
+		if (!input.value) return
 
-        if (!input.value) return
+		if (idx + 1 <= inputRefs.length - 1) {
+			inputRefs[idx + 1].focus()
+			inputRefs[idx + 1].select()
+		} else {
+			dispatch('filled')
+		}
+	}
 
-        if (idx + 1 <= inputRefs.length - 1) {
-            inputRefs[idx + 1].focus()
-            inputRefs[idx + 1].select()
-        } else {
-            dispatch('filled')
-        }
-    }
+	onMount(() => {
+		value = structuredClone(blanked)
 
-    onMount(() => {
-        value = structuredClone(blanked)
-
-        inputRefs = [...wordRef.querySelectorAll('.blank-letter input')]
-    })
+		inputRefs = [...wordRef.querySelectorAll('.blank-letter input')]
+	})
 </script>
 
 <style lang="postcss">
-    .word {
-        @apply inline-flex flex-wrap items-baseline justify-center;
+	.word {
+		@apply inline-flex flex-wrap items-baseline justify-center;
 
-        .blank-letter {
-            @apply relative w-[1.4ch]
+		.blank-letter {
+			@apply relative w-[1.4ch]
             mx-[2px];
 
-            &.correct {
-                input {
-                    @apply text-green-600;
-                }
+			&.correct {
+				input {
+					@apply text-green-600;
+				}
 
-                .underline {
-                    @apply bg-green-500;
-                }
-            }
+				.underline {
+					@apply bg-green-500;
+				}
+			}
 
-            &.incorrect {
-                input {
-                    @apply text-red-600;
-                }
+			&.incorrect {
+				input {
+					@apply text-red-600;
+				}
 
-                .underline {
-                    @apply bg-red-600;
-                }
-            }
+				.underline {
+					@apply bg-red-600;
+				}
+			}
 
-            input {
-                @apply w-[1.4ch] h-[2ex]
+			input {
+				@apply w-[1.4ch] h-[2ex]
                 text-center text-blue-500
                 rounded-md border-transparent
                 bg-transparent
@@ -87,38 +86,34 @@
                 transition-all ease-in-out duration-200
                 focus:border-transparent focus:ring-0 focus:bg-blue-200
                 hover:bg-blue-100;
-            }
+			}
 
-            .underline {
-                @apply absolute left-0 right-0 w-[1.1ch] h-[4px]
+			.underline {
+				@apply absolute left-0 right-0 w-[1.1ch] h-[4px]
                 mx-auto mt-[4px]
                 rounded-sm
                 bg-blue-500
                 z-20;
-            }
-        }
-    }
+			}
+		}
+	}
 </style>
 
 <div class="word" bind:this={wordRef} on:input={handleInput}>
-    {#each blanked as letter, idx}
-        {#if letter === BLANK_LETTER}
-            <div
-                class="blank-letter"
-                class:correct={highlighted && value[idx] === word[idx]}
-                class:incorrect={highlighted && value[idx] !== word[idx]}
-            >
-                <input
-                    on:input={e => handleLetter(e, idx)}
-                    type="text"
-                    maxlength="1"
-                >
-                <div class:underline={value[idx] === BLANK_LETTER}></div>
-            </div>
-        {:else}
-            <div class="letter">
-                {word[idx]}
-            </div>
-        {/if}
-    {/each}
+	{#each blanked as letter, idx}
+		{#if letter === BLANK_LETTER}
+			<div
+				class="blank-letter"
+				class:correct={highlighted && value[idx] === word[idx]}
+				class:incorrect={highlighted && value[idx] !== word[idx]}
+			>
+				<input on:input={(e) => handleLetter(e, idx)} type="text" maxlength="1" />
+				<div class:underline={value[idx] === BLANK_LETTER} />
+			</div>
+		{:else}
+			<div class="letter">
+				{word[idx]}
+			</div>
+		{/if}
+	{/each}
 </div>

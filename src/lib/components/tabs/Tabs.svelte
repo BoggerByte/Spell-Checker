@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { setContext } from 'svelte'
 	import { writable } from 'svelte/store'
-	import type { TabsContext } from "./types";
+	import type { TabsContext } from './types'
 
 	let activeTabId = writable<string>(undefined)
 

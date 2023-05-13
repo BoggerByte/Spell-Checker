@@ -1,4 +1,3 @@
-import Wrapper from "./Wrapper.svelte";
-
+import Wrapper from './Wrapper.svelte'
 
 export { Wrapper as default }

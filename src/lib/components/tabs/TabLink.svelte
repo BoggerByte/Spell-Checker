@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte'
-	import type { TabsContext } from "./types";
+	import type { TabsContext } from './types'
 
 	const { activeTabId, selectTab } = getContext<TabsContext>('tabs')
 
@@ -15,7 +15,7 @@
 
 {#if header}
 	<button
-		class="{$$props.class}"
+		class={$$props.class}
 		class:selected={$activeTabId === tabId}
 		on:click={() => selectTab(tabId)}
 	>

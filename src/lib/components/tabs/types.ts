@@ -1,8 +1,6 @@
 interface TabsContext {
-    activeTabId,
-    selectTab(id: string): void
+	activeTabId
+	selectTab(id: string): void
 }
 
-export {
-    type TabsContext
-}
+export { type TabsContext }

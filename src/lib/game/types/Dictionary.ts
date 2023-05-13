@@ -1,14 +1,11 @@
 interface DictionaryEntry {
-    word: string,
-    blanked: string
+	word: string
+	blanked: string
 }
 
 interface StorableDictionary {
-    readonly name: string
-    entries: DictionaryEntry[]
+	readonly name: string
+	entries: DictionaryEntry[]
 }
 
-export {
-    type DictionaryEntry,
-    type StorableDictionary
-}
+export { type DictionaryEntry, type StorableDictionary }

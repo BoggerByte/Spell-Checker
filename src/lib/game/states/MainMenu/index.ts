@@ -1,4 +1,3 @@
-import Index from "./Index.svelte";
-
+import Index from './Index.svelte'
 
 export { Index as default }

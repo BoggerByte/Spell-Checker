@@ -4,12 +4,12 @@ import * as path from 'path'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [svelte()],
-  resolve: {
-    alias: {
-      $lib: path.resolve('./src/lib'),
-      $types: path.resolve('./src/lib/types')
-    }
-  },
-  base: '/Spell-Checker/'
+	plugins: [svelte()],
+	resolve: {
+		alias: {
+			$lib: path.resolve('./src/lib'),
+			$types: path.resolve('./src/lib/types')
+		}
+	},
+	base: '/Spell-Checker/'
 })

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext } from 'svelte'
-	import type { TabsContext } from "./types";
+	import type { TabsContext } from './types'
 
 	const { activeTabId } = getContext<TabsContext>('tabs')
 

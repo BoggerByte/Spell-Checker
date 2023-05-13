@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+
 # Svelte + TS + Vite
 
 This template should help get you started developing with Svelte and TypeScript in Vite.
@@ -46,6 +47,9 @@ If you have state that's important to retain within a component, consider creati
 import { writable } from 'svelte/game'
 export default writable(0)
 ```
+
 =======
+
 # Spell-Checker
->>>>>>> 2f7c799bc316eda4fbe9ff9801adab1441e8183f
+
+> > > > > > > 2f7c799bc316eda4fbe9ff9801adab1441e8183f
