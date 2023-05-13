@@ -6,7 +6,7 @@
 	export let height = '1rem'
 	export let focusable = false
 
-	let displayIcon = icons.find((e) => e.name === name)
+	$: icon = icons.find((e) => e.name === name)
 </script>
 
 <svg
@@ -14,8 +14,8 @@
 	{focusable}
 	{width}
 	{height}
-	viewBox="0 0 {displayIcon.box} {displayIcon.box}"
+	viewBox="0 0 {icon.box} {icon.box}"
 	fill="none"
 >
-	{@html displayIcon.svg}
+	{@html icon.svg}
 </svg>
