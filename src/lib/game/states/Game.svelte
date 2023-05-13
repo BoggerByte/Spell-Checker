@@ -50,11 +50,10 @@
 	$: incorrectAnswersAmount = $game.answers.filter((ans) => !ans.isCorrect).length
 
 	// deallocate used cards
-	$: wordCardRefs,
-		wordCardRefs.forEach((_, idx) => {
-			if (idx === $game.round - 1) return
-			wordCardRefs[idx] = null
-		})
+	$: wordCardRefs.forEach((_, idx) => {
+		if (idx === $game.round - 1) return
+		wordCardRefs[idx] = null
+	})
 </script>
 
 <style lang="postcss">
