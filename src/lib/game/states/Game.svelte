@@ -8,7 +8,7 @@
 	import { fade } from 'svelte/transition'
 	import wait from '$lib/utils/wait'
 
-	type WordCardRef = HTMLElement & { check(): Promise<unknown>, focus(): void }
+	type WordCardRef = HTMLElement & { check(): Promise<unknown>; focus(): void }
 
 	const game = getContext<GameStore>('game')
 
