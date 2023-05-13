@@ -135,10 +135,7 @@
 					<Icon name={saved ? 'star-filled' : 'star'} />
 				</button>
 			</div>
-			<div
-				class="word
-                        flex items-center justify-center"
-			>
+			<div class="word flex items-center justify-center">
 				<WordWithBlanks {word} {blanked} bind:value bind:this={wordWithBlanksRef} on:filled />
 			</div>
 			<div class="description">Описание карточки в разработке...</div>
