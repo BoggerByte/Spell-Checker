@@ -2,8 +2,12 @@
     Guess The Letter
 </h1>
 <p align="center">
-    <img alt="Website" src="https://img.shields.io/website?logo=github&up_message=github.io&url=https%3A%2F%2Fboggerbyte.github.io%2FGuess-The-Letter%2F">
-    <img alt="GitHub" src="https://img.shields.io/github/license/BoggerByte/Guess-The-Letter">
+    <a href="https://boggerbyte.github.io/Guess-The-Letter/">
+        <img alt="Website" src="https://img.shields.io/website?logo=github&up_message=github.io&url=https%3A%2F%2Fboggerbyte.github.io%2FGuess-The-Letter%2F">
+    </a>
+    <a href="https://github.com/BoggerByte/Guess-The-Letter/blob/main/LICENSE">
+        <img alt="GitHub" src="https://img.shields.io/github/license/BoggerByte/Guess-The-Letter">
+    </a>
 </p>
 <p align="center">
     <em>Simple game that will quickly teach you how to write words correctly</em><br>
