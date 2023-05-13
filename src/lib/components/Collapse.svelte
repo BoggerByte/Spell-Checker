@@ -8,30 +8,28 @@
 </script>
 
 <style lang="postcss">
-	.collapse {
-		&-header {
-			@apply py-3 pr-5
+	.collapse-header {
+		@apply py-3 pr-5
             flex items-center
             text-2xl text-gray-900;
 
-			&:hover,
-			&:focus {
-				@applt text-black;
-			}
+		&:hover,
+		&:focus {
+			@applt text-black;
+		}
 
-			.collapse-toggler {
-				@apply inline-flex items-center gap-2
+		.collapse-toggler {
+			@apply inline-flex items-center gap-2
                 text-left;
 
-				.toggler-icon {
-					@apply flex-shrink-0;
-				}
+			.toggler-icon {
+				@apply flex-shrink-0;
 			}
 		}
+	}
 
-		&-content {
-			@apply px-2 flex flex-col gap-1;
-		}
+	.collapse-content {
+		@apply px-2 flex flex-col gap-1;
 	}
 </style>
 
@@ -41,8 +39,8 @@
 			<Icon
 				name="chevron-right"
 				class="toggler-icon
-                        transition-all duration-200 ease-out
-                        {isOpen ? 'rotate-90' : ''}"
+				transition-all duration-200 ease-out
+				{isOpen ? 'rotate-90' : ''}"
 			/>
 			<slot name="header" />
 		</button>
