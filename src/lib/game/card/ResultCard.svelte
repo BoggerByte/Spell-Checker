@@ -68,10 +68,7 @@
 			<Icon name={saved ? 'star-filled' : 'star'} />
 		</button>
 	</div>
-	<div
-		class="word
-                flex items-center justify-center"
-	>
+	<div class="word flex items-center justify-center">
 		<WordWithFilledBlanks
 			word={answer.word}
 			blanked={answer.blanked}
