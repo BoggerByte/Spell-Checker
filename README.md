@@ -1,55 +1,63 @@
-<<<<<<< HEAD
+<h1 style="text-align: center">
+    Guess The Letter
+</h1>
+<p style="text-align: center">
+    <img alt="Website" src="https://img.shields.io/website?logo=github&up_message=github.io&url=https%3A%2F%2Fboggerbyte.github.io%2FGuess-The-Letter%2F">
+    <img alt="GitHub" src="https://img.shields.io/github/license/BoggerByte/Guess-The-Letter">
+</p>
+<p style="text-align: center">
+    <em>Simple game that will quickly teach you how to write words correctly</em><br>
+    <em>(Currently supports only russian language)</em>
+</p>
 
-# Svelte + TS + Vite
+> Easy to understand,
+> Process and rectify mistakes conveniently,
+> Create and play with your own dictionaries
 
-This template should help get you started developing with Svelte and TypeScript in Vite.
+---
 
-## Recommended IDE Setup
+![Hero Card](docs/hero.jpg)
+*Game card with word «катастрофа» (eng. catastrophe)*
 
-[VS Code](https://code.visualstudio.com/) + [Svelte](https://marketplace.visualstudio.com/items?itemName=svelte.svelte-vscode).
+## Other screenshots
 
-## Need an official Svelte framework?
+![Screenshot Main Menu](docs/screenshot_main_menu.jpg)
+*Main Menu*
 
-Check out [SvelteKit](https://github.com/sveltejs/kit#readme), which is also powered by Vite. Deploy anywhere with its serverless-first approach and adapt to various platforms, without of the box support for TypeScript, SCSS, and Less, and easily-added support for mdsvex, GraphQL, PostCSS, Tailwind CSS, and more.
+![Screenshot Results](docs/screenshot_results.jpg)
+*Results*
 
-## Technical considerations
+---
 
-**Why use this over SvelteKit?**
+## Installation
 
-- It brings its own routing solution which might not be preferable for some users.
-- It is first and foremost a framework that just happens to use Vite under the hood, not a Vite app.
+Guess The Letter was written using **Vite**, **Svelte** and **Typescript** to build logic and **Tailwindcss** to design the website.
+So this section will explain how to install the project and what each component is responsible for.
 
-This template contains as little as possible to get started with Vite + TypeScript + Svelte, while taking into account the developer experience with regard to HMR and intellisense. It demonstrates capabilities on par with the other `create-vite` templates and is a good starting point for beginners dipping their toes into a Vite + Svelte project.
+### Requirements
+- npm 9.6.6
 
-Should you wait need the extended capabilities and extensibility provided by SvelteKit, the template has been structured similarly to SvelteKit so that it is easy to migrate.
-
-**Why `global.d.ts` instead of `compilerOptions.types` inside `jsconfig.json` or `tsconfig.json`?**
-
-Setting `compilerOptions.types` shuts out all other types not explicitly listed in the configuration. Using triple-slash references keeps the default TypeScript setting of accepting type information from the entire workspace, while also adding `svelte` and `vite/client` type information.
-
-**Why include `.vscode/extensions.json`?**
-
-Other templates indirectly recommend extensions via the README, but this file allows VS Code to prompt the user to install the recommended extension upon opening the project.
-
-**Why enable `allowJs` in the TS template?**
-
-While `allowJs: false` would indeed prevent the use of `.js` files in the project, it does not prevent the use of JavaScript syntax in `.svelte` files. In addition, it would force `checkJs: false`, bringing the worst of both worlds: not being able to guarantee the entire codebase is TypeScript, and also having worse typechecking for the existing JavaScript. In addition, there are valid use cases in which a mixed codebase may be relevant.
-
-**Why is HMR not preserving my local component state?**
-
-HMR state preservation comes with a number of gotchas! It has been disabled by default in both `svelte-hmr` and `@sveltejs/vite-plugin-svelte` due to its often surprising behavior. You can read the details [here](https://github.com/rixo/svelte-hmr#svelte-hmr).
-
-If you have state that's important to retain within a component, consider creating an external game which would not be replaced by HMR.
-
-```ts
-// store.ts
-// An extremely simple external game
-import { writable } from 'svelte/game'
-export default writable(0)
+### Install
+```console
+$ git clone https://github.com/BoggerByte/Guess-The-Letter.git
+$ npm i
 ```
 
-=======
+### Run Dev Server
+Dev server will be started by default at http://localhost:5173/Guess-The-Letter/
+```console
+$ npm run dev
+```
 
-# Spell-Checker
+### Build
+```console
+$ npm run build
+```
 
-> > > > > > > 2f7c799bc316eda4fbe9ff9801adab1441e8183f
+### Code quality
+```console
+$ npm run check
+$ npm run format
+$ npm run lint
+```
+
