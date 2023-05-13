@@ -24,6 +24,9 @@
 				small: ['px-4 py-3', 'text-lg', 'shadow-sm', 'rounded-md'],
 				medium: ['px-5 py-4', 'text-base', 'shadow-md', 'rounded-md'],
 				large: ['px-6 py-5', 'text-sm', 'shadow-lg', 'rounded-md']
+			},
+			active: {
+				true: ['bg-blue-100']
 			}
 		},
 		defaultVariants: {
@@ -37,13 +40,14 @@
 	export let intent: $$Props['intent'] = 'primary'
 	export let size: $$Props['size'] = 'medium'
 	export let disabled: $$Props['disabled'] = false
+	export let active: $$Props['active'] = false
 
 	let ref: HTMLButtonElement
 
 	export const focus = () => ref.focus()
 	export const blur = () => ref.blur()
 
-	$: buttonClass = button({ intent, size, disabled, class: $$props.class })
+	$: buttonClass = button({ intent, size, disabled, active, class: $$props.class })
 </script>
 
 <button {...$$props} class={buttonClass} bind:this={ref} on:click on:focus>
