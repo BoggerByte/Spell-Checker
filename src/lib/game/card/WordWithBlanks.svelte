@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte'
 	import replaceAt from '$lib/utils/replaceAt'
+	import wait from '$lib/utils/wait'
 
 	const dispatch = createEventDispatcher()
 
@@ -9,8 +10,8 @@
 	export let word: string
 	export let blanked: string
 	export let value: string
-	export const highlight = () => {
-		highlighted = true
+	export const highlight = async () => {
+		await wait(600, () => highlighted = true)
 	}
 	export const focus = () => {
 		if (inputRefs.length > 0) {
@@ -36,9 +37,22 @@
 
 		if (idx + 1 <= inputRefs.length - 1) {
 			inputRefs[idx + 1].focus()
-			inputRefs[idx + 1].select()
 		} else {
 			dispatch('filled')
+		}
+	}
+
+	function handleBackspace(event) {
+		if (event.key !== 'Backspace') return
+
+		const input: HTMLInputElement = event.target
+		const idx = inputRefs.indexOf(input)
+
+		if (input.value) return
+
+		event.preventDefault();
+		if (idx - 1 >= 0) {
+			inputRefs[idx - 1].focus()
 		}
 	}
 
@@ -99,7 +113,7 @@
 	}
 </style>
 
-<div class="word" bind:this={wordRef} on:input={handleInput}>
+<div class="word" bind:this={wordRef} on:input={handleInput} on:keydown={handleBackspace}>
 	{#each blanked as letter, idx}
 		{#if letter === BLANK_LETTER}
 			<div
@@ -107,7 +121,12 @@
 				class:correct={highlighted && value[idx] === word[idx]}
 				class:incorrect={highlighted && value[idx] !== word[idx]}
 			>
-				<input on:input={(e) => handleLetter(e, idx)} type="text" maxlength="1" />
+				<input
+					on:input={(e) => handleLetter(e, idx)}
+					on:focus={(e) => e.target.select()}
+					type="text"
+					maxlength="1"
+				/>
 				<div class:underline={value[idx] === BLANK_LETTER} />
 			</div>
 		{:else}
