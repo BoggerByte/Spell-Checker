@@ -5,7 +5,7 @@
 	import Icon from '$lib/components/icon'
 	import wait from '$lib/utils/wait'
 
-	type WordWithBlanksRef = HTMLElement & { focus(): void; highlight(): void }
+	type WordWithBlanksRef = HTMLElement & { focus(): void; highlight(): Promise<void> }
 
 	const dispatch = createEventDispatcher()
 
@@ -20,7 +20,7 @@
 			isCorrect: word.toLowerCase() === value.toLowerCase()
 		}
 
-		wordWithBlanksRef.highlight()
+		await wordWithBlanksRef.highlight()
 
 		if (answer.isCorrect) {
 			await wait(300)
