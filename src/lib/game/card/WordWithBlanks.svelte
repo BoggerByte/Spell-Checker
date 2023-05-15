@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher, onMount } from 'svelte'
 	import replaceAt from '$lib/utils/replaceAt'
-	import wait from '$lib/utils/wait'
+	import { waitFor } from '$lib/utils/timings'
 
 	const dispatch = createEventDispatcher()
 
@@ -11,7 +11,7 @@
 	export let blanked: string
 	export let value: string
 	export const highlight = async () => {
-		await wait(600, () => (highlighted = true))
+		await waitFor(() => (highlighted = true), 600)
 	}
 	export const focus = () => {
 		if (inputRefs.length > 0) {
@@ -25,7 +25,7 @@
 	let inputRefs: HTMLInputElement[]
 
 	function handleLetter(event, idx: number) {
-		const letter = event.target.value || BLANK_LETTER
+		const letter = event.target.value.toLowerCase() || BLANK_LETTER
 		value = replaceAt(value, idx, letter)
 	}
 
@@ -45,7 +45,7 @@
 	function handleBackspace(event) {
 		if (event.key !== 'Backspace') return
 
-		const input: HTMLInputElement = event.target
+		const input = event.target as HTMLInputElement
 		const idx = inputRefs.indexOf(input)
 
 		if (input.value) return
@@ -93,7 +93,7 @@
 
 			input {
 				@apply w-[1.4ch] h-[2ex]
-                text-center text-blue-500
+                text-center text-blue-500 lowercase
                 rounded-md border-transparent
                 bg-transparent
                 outline-none caret-transparent z-0
@@ -104,7 +104,7 @@
 
 			.underline {
 				@apply absolute left-0 right-0 w-[1.1ch] h-[4px]
-                mx-auto mt-[4px]
+                mx-auto mt-[-6px] sm:mt-[4px]
                 rounded-sm
                 bg-blue-500
                 z-20;

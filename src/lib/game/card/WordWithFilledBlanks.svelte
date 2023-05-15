@@ -26,7 +26,7 @@
 
 			div {
 				@apply w-[1.4ch] h-[2ex]
-                text-center text-blue-500
+                text-center text-blue-500 lowercase
                 rounded-md border-transparent
                 bg-transparent;
 			}
