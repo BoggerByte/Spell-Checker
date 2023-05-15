@@ -3,7 +3,7 @@
 	import WordWithBlanks from './WordWithBlanks.svelte'
 	import WordWithFilledBlanks from './WordWithFilledBlanks.svelte'
 	import Icon from '$lib/components/icon'
-	import wait from '$lib/utils/wait'
+	import { wait, waitFor } from '$lib/utils/timings'
 
 	type WordWithBlanksRef = HTMLElement & { focus(): void; highlight(): Promise<void> }
 
@@ -26,9 +26,9 @@
 			await wait(300)
 			dispatch('answer', answer)
 		} else {
-			await wait(300, flip)
+			await waitFor(flip, 300)
 			await wait(1000)
-			await wait(300, flip)
+			await waitFor(flip, 300)
 			dispatch('answer', answer)
 		}
 	}
@@ -52,7 +52,7 @@
 
 <style lang="postcss">
 	.scene {
-		@apply aspect-[5/7] min-w-[300px] w-[75vw] sm:w-[400px] md:w-[450px] lg:w-[500px];
+		@apply aspect-[5/7] min-w-[300px] w-[75vw] sm:w-[400px] md:w-[450px];
 		perspective: 1000px;
 	}
 
@@ -103,8 +103,7 @@
 			}
 
 			.word {
-				@apply mt-1
-                text-[calc(40px+1.5vw)] sm:text-5xl md:text-6xl;
+				@apply mt-1 text-[calc(40px+1.5vw)] sm:text-5xl md:text-6xl;
 
 				grid-area: w;
 			}
@@ -138,7 +137,7 @@
 			<div class="word flex items-center justify-center">
 				<WordWithBlanks {word} {blanked} bind:value bind:this={wordWithBlanksRef} on:filled />
 			</div>
-			<div class="description">Описание карточки в разработке...</div>
+			<!--			<div class="description">Описание карточки в разработке...</div>-->
 		</div>
 
 		<div class="card__face card__face--back">
@@ -150,7 +149,7 @@
 			</div>
 			<div
 				class="word
-                        flex items-center justify-center"
+               flex items-center justify-center"
 			>
 				<WordWithFilledBlanks {word} {blanked} value={word} />
 			</div>
