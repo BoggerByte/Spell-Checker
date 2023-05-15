@@ -51,7 +51,7 @@
 		const localDictionaries = Dictionaries.loadLocalDictionaries()
 		loadedDictionaries.push(...localDictionaries)
 
-		loadedDictionaries.forEach(dictionary => {
+		loadedDictionaries.forEach((dictionary) => {
 			dictionaries[dictionary.name] = dictionary
 			dictionaryOptions.push({
 				name: dictionary.name,

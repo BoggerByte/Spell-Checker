@@ -19,12 +19,7 @@
 </script>
 
 {#if header}
-	<Button
-		class={$$props.class}
-		intent="link"
-		active={selected}
-		on:click={() => selectTab(tabId)}
-	>
+	<Button class={$$props.class} intent="link" active={selected} on:click={() => selectTab(tabId)}>
 		{header}
 	</Button>
 {:else}

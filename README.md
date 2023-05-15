@@ -21,7 +21,7 @@
 ---
 
 ![Hero Card](docs/hero.jpg)
-*Game card with word «катастрофа» (eng. catastrophe)*
+_Game card with word «катастрофа» (eng. catastrophe)_
 
 ## Other screenshots
 
@@ -36,29 +36,34 @@ Guess The Letter was written using **Vite**, **Svelte** and **Typescript** to bu
 So this section will explain how to install the project and what each component is responsible for.
 
 ### Requirements
+
 - npm 9.6.6
 
 ### Install
+
 ```console
 $ git clone https://github.com/BoggerByte/Guess-The-Letter.git
 $ npm i
 ```
 
 ### Run Dev Server
+
 Dev server will be started by default at http://localhost:5173/Guess-The-Letter/
+
 ```console
 $ npm run dev
 ```
 
 ### Build
+
 ```console
 $ npm run build
 ```
 
 ### Code quality
+
 ```console
 $ npm run check
 $ npm run format
 $ npm run lint
 ```
-

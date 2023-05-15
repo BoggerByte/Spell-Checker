@@ -9,10 +9,12 @@
 
 	const StorableDictionaryObject = object({
 		name: string(),
-		entries: array(object({
-			word: string(),
-			blanked: string()
-		}))
+		entries: array(
+			object({
+				word: string(),
+				blanked: string()
+			})
+		)
 	})
 
 	function isStorableDictionary(obj: unknown): obj is StorableDictionary {
