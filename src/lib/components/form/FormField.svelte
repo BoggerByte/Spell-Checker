@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { field as fieldFunc, style } from 'svelte-forms'
+	import makeUnique from '$lib/utils/makeUnique'
 
 	type Field = ReturnType<typeof fieldFunc>
 
@@ -17,6 +18,8 @@
 	export let required = false
 	export let label = ''
 	export let options: { name: string; value: unknown }[] = []
+
+	const inputId = makeUnique('input')
 </script>
 
 <div
@@ -25,36 +28,29 @@
 	class:disabled
 	use:style={{ field }}
 >
-	<div class="label">
+	<label for={inputId} class="label">
 		<slot name="label">
 			<span>{label}</span>
 		</slot>
-	</div>
+	</label>
 
 	<slot name="input" field={$field}>
 		{#if type === 'textarea'}
-			<textarea bind:value={$field.value} />
-		{/if}
-		{#if type === 'checkbox'}
-			<input type="checkbox" bind:checked={$field.value} />
-		{/if}
-		{#if type === 'file'}
-			<input type="file" bind:files={$field.value} />
-		{/if}
-		{#if type === 'radio'}
-			<input type="radio" bind:group={$field.value} />
-		{/if}
-		{#if type === 'password'}
-			<input type="password" bind:value={$field.value} />
-		{/if}
-		{#if type === 'text'}
-			<input type="text" bind:value={$field.value} />
-		{/if}
-		{#if type === 'number'}
-			<input type="number" bind:value={$field.value} />
-		{/if}
-		{#if type === 'select'}
-			<select bind:value={$field.value}>
+			<textarea id={inputId} bind:value={$field.value} />
+		{:else if type === 'checkbox'}
+			<input id={inputId} type="checkbox" bind:checked={$field.value} />
+		{:else if type === 'file'}
+			<input id={inputId} type="file" bind:files={$field.value} />
+		{:else if type === 'radio'}
+			<input id={inputId} type="radio" bind:group={$field.value} />
+		{:else if type === 'password'}
+			<input id={inputId} type="password" bind:value={$field.value} />
+		{:else if type === 'text'}
+			<input id={inputId} type="text" bind:value={$field.value} />
+		{:else if type === 'number'}
+			<input id={inputId} type="number" bind:value={$field.value} />
+		{:else if type === 'select'}
+			<select id={inputId} bind:value={$field.value}>
 				{#each options as option}
 					<option value={option.value}>{option.name}</option>
 				{/each}
