@@ -76,5 +76,5 @@
 			{highlighted}
 		/>
 	</div>
-	<div class="description">Description (WIP)</div>
+	<!--	<div class="description">Description (WIP)</div>-->
 </div>
