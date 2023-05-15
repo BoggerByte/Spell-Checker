@@ -15,7 +15,7 @@
 
 		&:hover,
 		&:focus {
-			@applt text-black;
+			@apply text-black;
 		}
 
 		.collapse-toggler {
