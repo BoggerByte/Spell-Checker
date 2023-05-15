@@ -6,7 +6,7 @@
 	import type { GameStore } from '../store'
 	import { getContext } from 'svelte'
 	import { fade } from 'svelte/transition'
-	import wait from '$lib/utils/wait'
+	import { waitFor } from '$lib/utils/timings'
 
 	type WordCardRef = HTMLElement & { check(): Promise<unknown>; focus(): void }
 
@@ -37,17 +37,17 @@
 		const currentCard = getCurrentCard()
 		answerButtonRef.blur()
 
-		await wait(100, () => (overlayHidden = true))
+		await waitFor(() => (overlayHidden = true), 100)
 		await currentCard.check()
-		await wait(600, () => (overlayHidden = false))
+		await waitFor(() => (overlayHidden = false), 600)
 	}
 
 	async function goToMainMenu() {
-		await wait(600, () => (overlayHidden = true)).then(() => game.reset())
+		await waitFor(() => (overlayHidden = true), 600).then(() => game.reset())
 	}
 
 	async function goToResults() {
-		await wait(600, () => (overlayHidden = true)).then(() => game.nextState('results'))
+		await waitFor(() => (overlayHidden = true), 600).then(() => game.nextState('results'))
 	}
 
 	$: correctAnswersAmount = $game.answers.filter((ans) => ans.isCorrect).length
@@ -70,12 +70,12 @@
 	}
 
 	.overlay {
-		@apply aspect-[5/3] min-w-[300px] w-[75vw] sm:w-[400px] md:w-[450px] lg:w-[500px]
+		@apply aspect-[5/3] min-w-[300px] w-[75vw] sm:w-[400px] md:w-[450px]
         grid
         p-2 sm:p-4;
 
-		grid-template-columns: 35px 1fr 1fr 35px;
 		grid-template-rows: 1fr 1fr 50px;
+		grid-template-columns: 35px 1fr 1fr 35px;
 		grid-template-areas:
 			'. c c .'
 			'. b b .'
@@ -101,9 +101,7 @@
 		{$game.round} из {$game.maxRounds}
 	</div>
 
-	<div
-		class="relative aspect-[5/7] min-w-[300px] w-[75vw] sm:w-[400px] md:w-[450px] lg:w-[500px] z-0"
-	>
+	<div class="relative aspect-[5/7] min-w-[300px] w-[75vw] sm:w-[400px] md:w-[450px] z-0">
 		{#each $game.dictionary.entries as entry, idx (entry)}
 			{#if idx + 1 === $game.round}
 				<div class="absolute" out:swipe|local={{ duration: 600 }}>
