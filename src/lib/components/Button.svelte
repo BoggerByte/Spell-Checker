@@ -8,7 +8,7 @@
 				primary: [
 					'text-white',
 					'border-blue-600 hover:border-blue-500',
-					'bg-blue-500 hover:bg-blue-400'
+					'bg-blue-600 hover:bg-blue-500'
 				],
 				link: ['text-black', 'border-none', 'shadow-none', 'hover:underline'],
 				outlineSecondary: [
