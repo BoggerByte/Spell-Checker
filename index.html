@@ -3,19 +3,19 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Spell Checker</title>
+		<title>Guess The Letter</title>
 		<meta
 			name="description"
 			content="Game designed to quickly learn how to write words correctly"
 		/>
 		<meta name="author" content="N.A. Troshnev (BoggerByte)" />
-		<link rel="icon" href="/Guess-The-Letter/assets/favicon-b07a3702.ico" />
+		<link rel="icon" href="/guess-the-letter/assets/favicon-b07a3702.ico" />
 		<link rel="apple-touch-icon" href="data:image/png;base64,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" sizes="180x180" />
-		<link rel="mask-icon" href="/Guess-The-Letter/assets/mask-icon-c87dbd8f.svg" color="#FFFFFF" />
+		<link rel="mask-icon" href="/guess-the-letter/assets/mask-icon-c87dbd8f.svg" color="#FFFFFF" />
 		<meta name="theme-color" content="#ffffff" />
-		<script type="module" crossorigin src="/Guess-The-Letter/assets/index-bd3b7e8c.js"></script>
-		<link rel="stylesheet" href="/Guess-The-Letter/assets/index-73b2fa91.css">
-	<link rel="manifest" href="/Guess-The-Letter/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/Guess-The-Letter/registerSW.js"></script></head>
+		<script type="module" crossorigin src="/guess-the-letter/assets/index-97184158.js"></script>
+		<link rel="stylesheet" href="/guess-the-letter/assets/index-73b2fa91.css">
+	<link rel="manifest" href="/guess-the-letter/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/guess-the-letter/registerSW.js"></script></head>
 	<body>
 		<div id="app"></div>
 		
