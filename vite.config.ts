@@ -52,5 +52,5 @@ export default defineConfig({
 			$types: path.resolve('./src/lib/types')
 		}
 	},
-	base: '/Guess-The-Letter/'
+	base: '/guess-the-letter/'
 })
